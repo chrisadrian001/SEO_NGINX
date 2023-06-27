@@ -1,7 +1,5 @@
-F5 Agility Labs - Index
-=======================
-
 Welcome to the SEO lab for Intro to NGINX
+=======================
 
 This lab (originally authored for F5 Agility 2023) is an adaptation of “(Class-1_) - Intro to NGINX Plus” and has been modified by Chris Adrian and Bret Packard for use during SE Onboarding.
 
