@@ -168,8 +168,7 @@ In this exercise, we will be installing NGINX Plus and accessing the instance as
 Exercise 2: NGINX Plus command line basics
 ------------------------------------------
 
-In this exercise, we will review and configure NGINX Plus as a basic load
-balancer and test/verify configured functionality.
+In this exercise, we will review and configure NGINX Plus as a basic web server and test/verify configured functionality.
 
 #. If you have closed VSCode, once again, open the **WORKSPACE** folder found on
    the desktop, double click the **NGINX-PLUS-3** workspace shortcut to open Visual Studio
@@ -201,26 +200,26 @@ balancer and test/verify configured functionality.
 
       nginx -t
 
-   same as -t, but additionally dump configuration files to standard output
+   Same as -t, but additionally dump configuration files to standard output
 
    .. code:: bash
 
       nginx -T
 
 
-   print the NGINX version
+   Print the NGINX version
 
    .. code:: bash
 
       nginx -v
 
-   print the NGINX version, compiler version, and configure parameters.
+   Print the NGINX version, compiler version, and configure parameters.
 
    .. code:: bash
 
       nginx -V
 
-   send a signal to the master process. The argument signal can be one of:
+   Send a signal to the master process. The argument signal can be one of:
 
    - stop — shut down quickly
    - quit — shut down gracefully
@@ -255,6 +254,7 @@ Now that NGINX Plus is installed, browse to the NGINX configuration root,
 
    .. code:: nginx
 
+      # load modules
       load_module modules/ngx_http_geoip2_module.so;
       load_module modules/ngx_stream_geoip2_module.so;
 
@@ -282,3 +282,4 @@ Now that NGINX Plus is installed, browse to the NGINX configuration root,
       ls -al
 
 .. |module1_lab1_001| image:: ../images/module01_lab01_001.png
+   :scale: 60%

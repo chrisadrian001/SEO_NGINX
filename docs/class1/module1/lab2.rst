@@ -4,21 +4,21 @@ NGINX Plus HTTP Load balancing
 Introduction
 ------------
 
-Both NGINX Open Source and NGINX Plus can load balance HTTP, TCP, and UDP 
+Both NGINX Open Source and NGINX Plus can load balance HTTP, TCP, and UDP
 traffic. NGINX Plus extends NGINX Open Source with enterprise-grade load
 balancing that includes session persistence, active health checks, dynamic
-reconfiguration of load-balanced server groups without a server restart, and 
+reconfiguration of load-balanced server groups without a server restart, and
 additional metrics.
 
 .. seealso:: Official installing NGINX documentation:
 
    `NGINX Command Line
    <https://www.nginx.com/resources/wiki/start/topics/tutorials/commandline/>`__
-   
-   `High-Performance Load Balancing 
+
+   `High-Performance Load Balancing
    <https://www.nginx.com/products/nginx/load-balancing/>`__
 
-   `HTTP Load Balancing 
+   `HTTP Load Balancing
    <https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/>`__
 
 Learning Objectives
@@ -28,7 +28,7 @@ By the end of the lab you will be able to:
 
 -  Enable NGINX Plus as an HTTP load balancer
 -  Enable NGINX Plus as an HTTPS load balancer
--  TLS Best practices
+-  Apply TLS recommended practices
 
 Exercise 1: Inspect the NGINX configuration and rewrite logs
 ------------------------------------------------------------
@@ -38,33 +38,33 @@ Exercise 1: Inspect the NGINX configuration and rewrite logs
 
    .. image:: ../images/2020-06-29_15-55.png
 
-#. In the VSCode, open a terminal window by selecting **View > Terminal.** 
+#. In the VSCode, open a terminal window by selecting **View > Terminal.**
    You will now be able to both run NGINX commands and edit NGINX Plus
    configuration files via the VSCode Console and terminal.
 
    .. image:: ../images/2020-06-29_16-02_1.png
-      
-#. Now inspect **/etc/nginx/nginx.conf**.
-   
+
+#. Now inspect **/etc/nginx/nginx.conf** from the VSCode Explorer section.
+
    .. note::
 
-      - The **include /etc/nginx/conf.d/*.conf** statement for inclusion of
+      - The **include /etc/nginx/conf.d/*.conf** statement is for inclusion of
         further NGINX Plus configuration files.
-    
-      - The **TCP/UDP proxy and load balancing block** This is an example of
+
+      - The **TCP/UDP proxy and load balancing block** is an example of
         using the “stream” context for TCP and UDP load balancing.
 
    .. image:: ../images/2020-06-29_16-02.png
 
 #. Select the **etc/nginx/conf.d/example.com.conf** file in the VSCode Explorer
-   section. 
-   
+   section.
+
    .. note:: See the following entries in the server block:
 
    -  **server_name www.example.com “"**, that will match **www.example.com**
    -  **location /**, that will match all or any uri
    -  **proxy_pass http://nginx_hello**, to proxy request to the upstream group
-      labeled **nginx_hello** (defined in **upstreams.conf**) 
+      labeled **nginx_hello** (defined in **upstreams.conf**)
    -  **rewrite_log on** directive, and the **"301 MOVED PERMANENTLY"**
       line. This allows for logging all rewrites to the error log.
 
@@ -76,8 +76,8 @@ Exercise 1: Inspect the NGINX configuration and rewrite logs
          server_name www.example.com "";
 
          # Server specific logging
-         access_log  /var/log/nginx/www.example.com.log  main_cache; 
-         error_log   /var/log/nginx/www.example.com_error.log notice; 
+         access_log  /var/log/nginx/www.example.com.log  main_cache;
+         error_log   /var/log/nginx/www.example.com_error.log notice;
 
          location / {
 
@@ -85,12 +85,11 @@ Exercise 1: Inspect the NGINX configuration and rewrite logs
          }
 
          # Enabling rewrite logging is bonus points
-         # Enables logging of ngx_http_rewrite_module module directives 
+         # Enables logging of ngx_http_rewrite_module module directives
          # processing results into the error_log at the notice level
          rewrite_log on;
 
-         # 301 MOVED PERMANENTLY
-         location = /old-url { return 301 new-url; } 
+         location = /old-url { return 301 new-url; } # 301 MOVED PERMANENTLY
 
          # etc..
 
@@ -107,8 +106,8 @@ Exercise 1: Inspect the NGINX configuration and rewrite logs
 
       .. code:: bash
 
-         cd /var/log/nginx 
-         tail -f www.example.com_error.log 
+         cd /var/log/nginx
+         tail -f www.example.com_error.log
 
    b. In the other terminal shell, run the following **curl** command:
 
@@ -121,15 +120,19 @@ Exercise 1: Inspect the NGINX configuration and rewrite logs
 Exercise 2: HTTP Load Balancing
 -------------------------------
 
-#. In the VS code Explorer select the **upstreams.conf** file. Observe the
+In this exercise, we will review and test the NGINX load-balancing configuration on nginx-plus-1.
+
+  |module1_lab2_001|
+
+#. In the VS code Explorer select under **conf.d**, select the **upstreams.conf** file. Observe the
    following configuration entries to the **upstream nginx_hello** block:
 
    .. code:: nginx
 
-      # nginx-hello servers 
+      # nginx-hello servers
       upstream nginx_hello {
 
-         least_time header; #header|last_byte 
+         least_time header; #header|last_byte
 
          zone nginx_hello 64k;
          server 10.1.1.5:80;
@@ -185,8 +188,8 @@ Exercise 3: HTTPS Load Balancing
 
 #. In your lab browser, open https://www2.example.com
 
-   .. attention:: 
-      
+   .. attention::
+
       If you receive the **Your connection is not private** warning
       page, click **Advanced** then click the link
       **Proceed to www2.example.com (unsafe).**
@@ -196,3 +199,6 @@ Exercise 3: HTTPS Load Balancing
    **web2** and **web3** in a load balancing fashion.
 
    .. image:: ../images/2020-06-26_13-04.png
+
+   .. |module1_lab2_001| image:: ../images/module01_lab02_001.png
+      :scale: 60%
