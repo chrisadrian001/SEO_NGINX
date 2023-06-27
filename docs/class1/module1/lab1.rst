@@ -281,4 +281,4 @@ Now that NGINX Plus is installed, browse to the NGINX configuration root,
       cd /etc/nginx/modules
       ls -al
 
-.. |module01_lab01_001| image:: ../images/module01_lab01_001.png
+.. |module1_lab1_001| image:: ../images/module01_lab01_001.png
