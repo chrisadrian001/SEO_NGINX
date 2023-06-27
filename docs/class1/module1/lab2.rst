@@ -201,4 +201,4 @@ Exercise 3: HTTPS Load Balancing
    .. image:: ../images/2020-06-26_13-04.png
 
    .. |module1_lab2_001| image:: ../images/module01_lab02_001.png
-      :scale: 60%
+      :scale: 50%

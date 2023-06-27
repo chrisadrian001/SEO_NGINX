@@ -10,7 +10,7 @@ The class will cover the following topics:
 
 Expected time to complete: **30 minutes**
 
-We will be using a jumpbox to connect to the lab environment. Got to the next
+We will be using a jumpbox to connect to the lab environment. Go to the next
 section for details on how to connect to the lab environment.
 
 .. toctree::
