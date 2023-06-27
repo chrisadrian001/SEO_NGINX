@@ -18,18 +18,18 @@ Prerequisites
 Before being able to use NGINX Plus you will need the following:
 
 - An NGINX Plus subscription
-- A supported operating system 
+- A supported operating system
 - Your credentials to the NGINX Plus Customer Portal
 - Your NGINX Plus certificate and public key
 
 .. note:: The prerequisites have been completed for you in this lab
 
 .. seealso:: Official installing NGINX documentation:
-   `Installing NGINX Plus 
+   `Installing NGINX Plus
    <https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-plus/>`_
-   
+
    Official NGINX GeoIP2 documentation:
-   `GeoIP2 Module 
+   `GeoIP2 Module
    <https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-plus/>`_
 
 Learning Objectives
@@ -45,6 +45,10 @@ By the end of the lab you will be able to:
 Exercise 1: Install NGINX Plus
 ------------------------------
 
+In this exercise, we will be installing NGINX Plus and accessing the instance as a basic Web Server.
+
+  |module1_lab1_001|
+
 #. In the **WORKSPACE** folder found on the desktop, open the
    **NGINX-PLUS-3** workspace by double clicking the NGINX-PLUS-3 file.  This will start an instance of Visual Studio Code.
 
@@ -57,42 +61,52 @@ Exercise 1: Install NGINX Plus
 
    .. image:: ../images/2020-06-29_20-57.png
 
-#. In VSCode, open a terminal window by selecting **View > Terminal.** 
+#. In VSCode, open a terminal window by selecting **View > Terminal.**
    You will now be able to both run NGINX commands and edit NGINX Plus
    configuration files via the VSCode Console and terminal.
 
    .. image:: ../images/2020-06-29_21-01.png
 
    .. note:: Terminal will appear on the bottom portion of the VSCode window.
-   
+
    .. image:: ../images/2020-06-26_12-27.png
 
 #. In the terminal run the following commands to install NGINX Plus
 
    a. Confirm you are root
- 
+
       .. code:: bash
 
          whoami
-   
-   b. Move to the /root directory and check that the nginx-repo.crt and 
+
+   b. Move to the /root directory and check that the nginx-repo.crt and
       nginx-repo.key files are present.
 
       .. code:: bash
 
-         cd /root 
+         cd /root
          ls
 
    c. Run installation commands
 
+   .. note::
+
+      Some commands will require user-input to proceed.  Please copy and paste each line individually.
+
       .. code:: bash
 
          mkdir -p /etc/ssl/nginx
+
          cp nginx-repo.* /etc/ssl/nginx
+
          wget http://nginx.org/keys/nginx_signing.key && sudo apt-key add nginx_signing.key
+
+         apt-get update
+
          apt-get install apt-transport-https lsb-release ca-certificates wget gnupg2 ubuntu-keyring
 
          wget -qO - https://cs.nginx.com/static/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+
          wget -qO - https://cs.nginx.com/static/keys/app-protect-security-updates.key | gpg --dearmor | sudo tee /usr/share/keyrings/app-protect-security-updates.gpg >/dev/null
 
          printf "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] https://pkgs.nginx.com/plus/ubuntu `lsb_release -cs` nginx-plus\n" | sudo tee /etc/apt/sources.list.d/nginx-plus.list
@@ -113,19 +127,19 @@ Exercise 1: Install NGINX Plus
 
    .. code:: bash
 
-      apt-get -y install nginx-plus-module-geoip2 
+      apt-get -y install nginx-plus-module-geoip2
 
    .. note::
 
       In the output of the previous command view the instructions to enable
       the module via the NGINX config. **We will do this later:**
 
-      ``The 3rd-party GeoIP2 dynamic modules for NGINX Plus have been installed. 
-      To enable these modules, add the following to /etc/nginx/nginx.conf 
-      and reload nginx:`` 
+      ``The 3rd-party GeoIP2 dynamic modules for NGINX Plus have been installed.
+      To enable these modules, add the following to /etc/nginx/nginx.conf
+      and reload nginx:``
 
-         **load_module modules/ngx_http_geoip2_module.so;** 
-            
+         **load_module modules/ngx_http_geoip2_module.so;**
+
          **load_module modules/ngx_stream_geoip2_module.so;**
 
       Please refer to the module documentation for further details:
@@ -136,17 +150,17 @@ Exercise 1: Install NGINX Plus
 
    .. code:: bash
 
-      systemctl start nginx 
+      systemctl start nginx
 
 #. Verify that NGINX Plus has started
 
    .. code:: bash
 
-      systemctl status nginx 
+      systemctl status nginx
 
-#. Test the NGINX Plus instance in your browser. Open **Google Chrome** from 
-   your Desktop and enter the following URL, http://nginx-plus-3. 
-   
+#. Test the NGINX Plus instance in your browser. Open **Google Chrome** from
+   your Desktop and enter the following URL, http://nginx-plus-3.
+
    You should see the NGINX default page:
 
    .. image:: ../images/2020-06-26_12-33.png
@@ -165,7 +179,7 @@ balancer and test/verify configured functionality.
 
    .. image:: ../images/2020-06-26_12-27.png
 
-#. In VSCode, open a **terminal window**, using **View > Terminal menu** 
+#. In VSCode, open a **terminal window**, using **View > Terminal menu**
    command. You will now be able to both run NGINX commands and edit NGINX Plus
    configuration files via the VSCode Console and terminal.
 
@@ -176,13 +190,13 @@ balancer and test/verify configured functionality.
 
    .. code:: bash
 
-      nginx -h 
-   
-   Test the configuration file: 
-   
-   NGINX checks the configuration for correct syntax, and then tries to open 
+      nginx -h
+
+   Test the configuration file:
+
+   NGINX checks the configuration for correct syntax, and then tries to open
    files referred in the configuration.
-      
+
    .. code:: bash
 
       nginx -t
@@ -190,22 +204,22 @@ balancer and test/verify configured functionality.
    same as -t, but additionally dump configuration files to standard output
 
    .. code:: bash
-      
-      nginx -T 
-      
-      
+
+      nginx -T
+
+
    print the NGINX version
 
    .. code:: bash
 
       nginx -v
-      
+
    print the NGINX version, compiler version, and configure parameters.
-      
+
    .. code:: bash
-      
-      nginx -V 
- 
+
+      nginx -V
+
    send a signal to the master process. The argument signal can be one of:
 
    - stop — shut down quickly
@@ -213,10 +227,10 @@ balancer and test/verify configured functionality.
    - reload — reload configuration, start the new worker process with a new
      configuration, gracefully shut down old worker processes.
    - reopen — reopen log files
-      
+
    .. code:: bash
-      
-      nginx -s reload 
+
+      nginx -s reload
 
 Exercise 3: Inspect NGINX Plus modules
 --------------------------------------
@@ -241,7 +255,7 @@ Now that NGINX Plus is installed, browse to the NGINX configuration root,
 
    .. code:: nginx
 
-      load_module modules/ngx_http_geoip2_module.so; 
+      load_module modules/ngx_http_geoip2_module.so;
       load_module modules/ngx_stream_geoip2_module.so;
 
    For example, it may look like this:
@@ -251,7 +265,7 @@ Now that NGINX Plus is installed, browse to the NGINX configuration root,
 #. In the terminal window select **File > Save** or use **ctrl+s** to save the
    file.
 
-#. Open the terminal window again by selecting **View > Terminal** and in the 
+#. Open the terminal window again by selecting **View > Terminal** and in the
    terminal window, run the following commands to reload nginx:
 
    .. code:: bash
@@ -264,5 +278,7 @@ Now that NGINX Plus is installed, browse to the NGINX configuration root,
 
    .. code:: bash
 
-      cd /etc/nginx/modules  
-      ls -al 
+      cd /etc/nginx/modules
+      ls -al
+
+.. |module01_lab01_001| image:: ../images/module01_lab01_001.png
