@@ -22,6 +22,10 @@ github_repo = "https://github.com/chrisadrian001/SEO_NGINX"
 # END CONFIG
 # ----------
 
+sys.path.insert(0, os.path.abspath("."))
+
+year = time.strftime("%Y")
+eventname = "SE Onboarding" % (year)
 
 # -- General configuration ------------------------------------------------
 
