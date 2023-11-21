@@ -1,9 +1,7 @@
 Class1 - Intro to NGINX Plus
 ============================
 
-This class provides hands-on experience using NGINX plus.
-==========================================================================
-The class will cover the following topics:
+This class provides hands-on experience using NGINX plus and will cover the following topics:
 
 - Install NGINX Plus and NGINX command line basics
 - NGINX Plus HTTP Load Balancing
